@@ -11,12 +11,16 @@ const fetchDay = (api, personId, date) =>
     `time_entries?filter[person_id]=${personId}&filter[after]=${date}&filter[before]=${date}`
   );
 
-module.exports.hello = async (event) => {
+module.exports.slack = async (event) => {
+  const eventBody = Buffer.from(event.body, 'base64');
+
+  const slackParameters = new URLSearchParams(eventBody.toString('ascii'));
+
   const api = axios.create({
     baseURL: "https://api.productive.io/api/v2/",
     headers: {
       "Content-Type": "application/vnd.api+json",
-      "X-Auth-Token": event.pathParameters.api_key,
+      "X-Auth-Token": slackParameters.get('text'),
       "X-Organization-Id": 1376,
     },
   });

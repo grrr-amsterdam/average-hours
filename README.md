@@ -2,7 +2,7 @@
 
 API to calculate the average hours worked on a day. The source is the Productive API.
 
-Endpoint: `/average-hours/{api_key}`
+Endpoint: `POST /average-hours`
 
 ## Deploy
 
@@ -10,4 +10,4 @@ Endpoint: `/average-hours/{api_key}`
 
 ## Local development
 
-`npx serverless invoke local --function hello --path test/valid-api-call.json`
+`npx serverless invoke local --function slack --path test/slack-command-average-hours.json`

@@ -1,0 +1,17 @@
+{
+  "name": "average-hours",
+  "version": "0.0.1",
+  "description": "API to calculate the average hours worked on a day. The source is the Productive API.",
+  "main": "handler.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martijn Gastkemper <martijngastkemper@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}

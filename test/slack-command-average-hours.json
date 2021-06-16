@@ -1,12 +1,9 @@
 {
-  "body": "eyJ0ZXN0IjoiYm9keSJ9",
+  "body": "dG9rZW49RmFOQ0lOb3hmNUxnS3RubnJhSU5wTE5tJnRlYW1faWQ9VDAyNkpKOEI2JnRlYW1fZG9tYWluPWdycnImY2hhbm5lbF9pZD1EQUtGWUFETTEmY2hhbm5lbF9uYW1lPWRpcmVjdG1lc3NhZ2UmdXNlcl9pZD1VQUxMQTMyNUQmdXNlcl9uYW1lPW1hcnRpam4mY29tbWFuZD0lMkZhdmVyYWdlLWhvdXJzJnRleHQ9YTUwMWZkYmQtYTMzYi00YmY3LWJkMGUtYzM1ZmVhNGYzZDk1JmFwaV9hcHBfaWQ9QTAyNUY4QUo3S04maXNfZW50ZXJwcmlzZV9pbnN0YWxsPWZhbHNlJnJlc3BvbnNlX3VybD1odHRwcyUzQSUyRiUyRmhvb2tzLnNsYWNrLmNvbSUyRmNvbW1hbmRzJTJGVDAyNkpKOEI2JTJGMjE4MDA1MDA1ODQ5OCUyRjZZQ25jcFFxSmlvcWVySzI5SEZINlYwciZ0cmlnZ2VyX2lkPTIxNjUyODQxMDA0NTUuMjIyMjYyMDM4MC5jY2JiYzVjZjdkYmI3YmEwMWExYThiNzg4YWQyODdlYw=",
   "resource": "/{proxy+}",
   "path": "/path/to/resource",
   "httpMethod": "POST",
   "isBase64Encoded": true,
-  "pathParameters": {
-    "api_key": "a501fdbd-a33b-4bf7-bd0e-c35fea4f3d95"
-  },
   "headers": {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Accept-Encoding": "gzip, deflate, sdch",
