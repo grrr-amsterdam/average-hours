@@ -4,6 +4,8 @@ API to calculate the average hours worked on a day. The source is the Productive
 
 Endpoint: `POST /average-hours`
 
+The GRRR Slack workspace contains an app with exposes a slash command: `/average-hours [api-key]`.
+
 ## Deploy
 
 `npx serverless deploy`
