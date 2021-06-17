@@ -28,9 +28,8 @@ provider:
   lambdaHashingVersion: 20201221
   logRetentionInDays: 7
 
-  # you can overwrite defaults here
-  #  stage: dev
-  #  region: us-east-1
+  stage: prod
+  region: eu-central-1
 
   # you can add statements to the Lambda function's IAM Role here
   iam:
@@ -39,7 +38,7 @@ provider:
         - Effect: "Allow"
           Action:
             - "secretsmanager:GetSecretValue"
-          Resource: "arn:aws:secretsmanager:us-east-1:308691726112:secret:slack_app_average_hours-PfrB8D"
+          Resource: "arn:aws:secretsmanager:eu-central-1:308691726112:secret:slack_app_average_hours-KjumGm"
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"

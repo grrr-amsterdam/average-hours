@@ -14,4 +14,6 @@ Activate your personal AWS profile. Serverless will create a assume role for the
 
 ## Deploy
 
+The Lamdba function is currently running in GRRR AWS account.
+
 `npx serverless deploy`
