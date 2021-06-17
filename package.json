@@ -12,6 +12,7 @@
   "author": "Martijn Gastkemper <martijngastkemper@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.18.0",
     "axios": "^0.21.1",
     "date-fns": "^2.22.1"
   }

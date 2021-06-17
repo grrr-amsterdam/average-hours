@@ -2,6 +2,7 @@
 const axios = require("axios");
 const subDays = require("date-fns/subDays");
 const format = require("date-fns/format");
+const { SecretsManagerClient, GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager");
 
 const extractPersonId = (res) => res.data.data[0].relationships.person.data.id;
 
@@ -21,16 +22,17 @@ const fetchOrganizationMemberships = (api) =>
 
 module.exports.slack = async (event) => {
   try {
-    const eventBody = Buffer.from(event.body, "base64");
-
-    const slackParameters = new URLSearchParams(eventBody.toString("ascii"));
+    const client = new SecretsManagerClient();
+    const command = new GetSecretValueCommand({SecretId: 'slack_app_average_hours'});
+    const response = await client.send(command);
+    const { productive_api_key, productive_organization_id, slack_user_oauth_token } = response.SecretString;
 
     const api = axios.create({
       baseURL: "https://api.productive.io/api/v2/",
       headers: {
         "Content-Type": "application/vnd.api+json",
-        "X-Auth-Token": slackParameters.get("text"),
-        "X-Organization-Id": 1376,
+        "X-Auth-Token": productive_api_key,
+        "X-Organization-Id": productive_organization_id,
       },
     });
 
