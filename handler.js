@@ -15,7 +15,7 @@ const fetchTimeEntries = (api, personId, start, end) =>
     `time_reports?filter[person_id]=${personId}&filter[group]=day&filter[after]=${format(
       start,
       "yyyy-MM-dd"
-    )}&filter[before]=${format(end, "yyyy-MM-dd")}`
+    )}&filter[before]=${format(end, "yyyy-MM-dd")}&page[size]=200`
   );
 
 const fetchConfigurationVariables = async (secretId) => {
