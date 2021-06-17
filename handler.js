@@ -62,6 +62,10 @@ module.exports.slack = async (event) => {
       slack_user_oauth_token,
     } = await fetchConfigurationVariables("slack_app_average_hours");
 
+    const eventBody = Buffer.from(event.body, "base64");
+    const slackParameters = new URLSearchParams(eventBody.toString("ascii"));
+    const days = parseInt(slackParameters.get("text"), 10) || 14;
+
     const productiveApi = initProductiveApi(
       productive_api_key,
       productive_organization_id
@@ -76,7 +80,7 @@ module.exports.slack = async (event) => {
     );
 
     const now = Date.now();
-    const start = subDays(now, 14 + 1);
+    const start = subDays(now, days + 1);
     const end = subDays(now, 1);
 
     const timeReports = await fetchTimeEntries(
