@@ -11,12 +11,15 @@ const extractWorkedTime = (res) =>
   res.data.data.map((timeReport) => timeReport.attributes.worked_time);
 
 const fetchTimeEntries = (api, personId, start, end) =>
-  api.get(
-    `time_reports?filter[person_id]=${personId}&filter[group]=day&filter[after]=${format(
-      start,
-      "yyyy-MM-dd"
-    )}&filter[before]=${format(end, "yyyy-MM-dd")}&page[size]=200`
-  );
+  api.get("time_reports", {
+    params: {
+      "filter[person_id]": personId,
+      "filter[group]": "day",
+      "filter[after]": format(start, "yyyy-MM-dd"),
+      "filter[before]": format(end, "yyyy-MM-dd"),
+      "page[size]": 200,
+    },
+  });
 
 const fetchConfigurationVariables = async (secretId) => {
   const client = new SecretsManagerClient();
@@ -26,9 +29,12 @@ const fetchConfigurationVariables = async (secretId) => {
 };
 
 const fetchPerson = async (productiveApi, emailAddress) => {
-  const response = await productiveApi.get(
-    "people?filter[person_type]=1&filter[status]=1"
-  );
+  const response = await productiveApi.get("people", {
+    params: {
+      "filter[person_type]": 1,
+      "filter[status]": 1,
+    },
+  });
   return response.data.data.find(
     (people) => people.attributes.email === emailAddress
   );

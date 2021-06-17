@@ -15,4 +15,3 @@ Activate your personal AWS profile. Serverless will create a assume role for the
 ## Deploy
 
 `npx serverless deploy`
-
