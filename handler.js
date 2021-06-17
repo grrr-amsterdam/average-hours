@@ -80,7 +80,7 @@ module.exports.slack = async (event) => {
     );
 
     const now = Date.now();
-    const start = subDays(now, days + 1);
+    const start = subDays(now, days);
     const end = subDays(now, 1);
 
     const timeReports = await fetchTimeEntries(
