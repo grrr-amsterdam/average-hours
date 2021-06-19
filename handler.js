@@ -43,6 +43,7 @@ const fetchPerson = async (productiveApi, emailAddress) => {
 const initProductiveApi = (productive_api_key, productive_organization_id) =>
   axios.create({
     baseURL: "https://api.productive.io/api/v2/",
+    timeout: 1500,
     headers: {
       "Content-Type": "application/vnd.api+json",
       "X-Auth-Token": productive_api_key,
@@ -53,6 +54,7 @@ const initProductiveApi = (productive_api_key, productive_organization_id) =>
 const initSlackApi = (user_oauth_token) =>
   axios.create({
     baseURL: "https://slack.com/api/",
+    timeout: 1500,
     headers: {
       Authorization: `Bearer ${user_oauth_token}`,
     },
