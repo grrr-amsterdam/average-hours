@@ -8,7 +8,7 @@ The GRRR Slack workspace contains an app with exposes a slash command: `/average
 
 ## Known issues and improvements
 
-- The Productive API calls are paginated, but this app doesn't support that. So a high amount of days will be cut off.
+- Productive API calls are paginated, but this app doesn't support that. When using more then 200 days the average will be wrong, because the first page contains the first days.
 - The Slack and Productive API are functions right now. Seperate classes would make the code more readable.
 - No CI with auto deploy and Prettier.
 - Sentry monitoring is missing.
