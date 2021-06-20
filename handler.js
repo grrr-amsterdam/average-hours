@@ -1,25 +1,14 @@
 "use strict";
 const axios = require("axios");
-const subDays = require("date-fns/subDays");
-const format = require("date-fns/format");
 const {
   SecretsManagerClient,
   GetSecretValueCommand,
 } = require("@aws-sdk/client-secrets-manager");
+const ProductiveClient = require("./src/productiveClient");
+const SlackClient = require("./src/slackClient");
 
 const extractWorkedTime = (res) =>
   res.data.data.map((timeReport) => timeReport.attributes.worked_time);
-
-const fetchTimeEntries = (api, personId, start, end) =>
-  api.get("time_reports", {
-    params: {
-      "filter[person_id]": personId,
-      "filter[group]": "day",
-      "filter[after]": format(start, "yyyy-MM-dd"),
-      "filter[before]": format(end, "yyyy-MM-dd"),
-      "page[size]": 200,
-    },
-  });
 
 const fetchConfigurationVariables = async (secretId) => {
   const client = new SecretsManagerClient();
@@ -28,39 +17,11 @@ const fetchConfigurationVariables = async (secretId) => {
   return JSON.parse(response.SecretString);
 };
 
-const fetchPerson = async (productiveApi, emailAddress) => {
-  const response = await productiveApi.get("people", {
-    params: {
-      "filter[person_type]": 1,
-      "filter[status]": 1,
-    },
-  });
-  return response.data.data.find(
-    (people) => people.attributes.email === emailAddress
-  );
+const getDaysFromEvent = (event) => {
+  const eventBody = Buffer.from(event.body, "base64");
+  const slackParameters = new URLSearchParams(eventBody.toString("ascii"));
+  return parseInt(slackParameters.get("text"), 10);
 };
-
-const initProductiveApi = (productive_api_key, productive_organization_id) =>
-  axios.create({
-    baseURL: "https://api.productive.io/api/v2/",
-    timeout: 1500,
-    headers: {
-      "Content-Type": "application/vnd.api+json",
-      "X-Auth-Token": productive_api_key,
-      "X-Organization-Id": productive_organization_id,
-    },
-  });
-
-const initSlackApi = (user_oauth_token) =>
-  axios.create({
-    baseURL: "https://slack.com/api/",
-    timeout: 1500,
-    headers: {
-      Authorization: `Bearer ${user_oauth_token}`,
-    },
-  });
-
-const fetchSlackProfile = (slackApi) => slackApi.get("users.profile.get");
 
 module.exports.slack = async (event) => {
   try {
@@ -70,38 +31,20 @@ module.exports.slack = async (event) => {
       slack_user_oauth_token,
     } = await fetchConfigurationVariables("slack_app_average_hours");
 
-    const eventBody = Buffer.from(event.body, "base64");
-    const slackParameters = new URLSearchParams(eventBody.toString("ascii"));
-    const days = parseInt(slackParameters.get("text"), 10) || 14;
+    const days = getDaysFromEvent(event) || 14;
 
-    const productiveApi = initProductiveApi(
+    const productive = new ProductiveClient(
       productive_api_key,
       productive_organization_id
     );
-    const slackApi = initSlackApi(slack_user_oauth_token);
 
-    const slackProfile = await fetchSlackProfile(slackApi);
+    const slack = new SlackClient(slack_user_oauth_token);
+    const emailAddress = await slack.fetchEmailAddress();
 
-    const person = await fetchPerson(
-      productiveApi,
-      slackProfile.data.profile.email
+    const hoursPerWorkedDay = await productive.fetchWorkedDays(
+      emailAddress,
+      days
     );
-
-    const now = Date.now();
-    const start = subDays(now, days);
-    const end = subDays(now, 1);
-
-    const timeReports = await fetchTimeEntries(
-      productiveApi,
-      person.id,
-      start,
-      end
-    );
-
-    const hoursPerWorkedDay = extractWorkedTime(timeReports).filter(
-      (hours) => hours > 0
-    );
-
     const average =
       hoursPerWorkedDay.reduce((a, b) => a + b, 0) / hoursPerWorkedDay.length;
 
