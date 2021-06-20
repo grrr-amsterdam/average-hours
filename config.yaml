@@ -1,0 +1,5 @@
+# Cache layer configuration
+parameters:
+  - region: eu-central-1
+    names:
+      - slack_app_average_hours

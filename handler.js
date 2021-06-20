@@ -4,18 +4,15 @@ const DEFAULT_DAYS = 14;
 const AWS_SECRET_ID = "slack_app_average_hours";
 
 const axios = require("axios");
-const {
-  SecretsManagerClient,
-  GetSecretValueCommand,
-} = require("@aws-sdk/client-secrets-manager");
 const ProductiveClient = require("./src/productiveClient");
 const SlackClient = require("./src/slackClient");
 
 const fetchConfigurationVariables = async () => {
-  const client = new SecretsManagerClient();
-  const command = new GetSecretValueCommand({ SecretId: AWS_SECRET_ID });
-  const response = await client.send(command);
-  return JSON.parse(response.SecretString);
+  // Load configuration from Parameter store via cache layer
+  const response = await axios.get(
+    `http://localhost:4000/parameters?name=${AWS_SECRET_ID}`
+  );
+  return response.data;
 };
 
 const parseSlackEvent = (event) => {
