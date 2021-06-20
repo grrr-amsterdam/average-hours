@@ -1,4 +1,8 @@
 "use strict";
+
+const DEFAULT_DAYS = 14;
+const AWS_SECRET_ID = "slack_app_average_hours";
+
 const axios = require("axios");
 const {
   SecretsManagerClient,
@@ -7,20 +11,19 @@ const {
 const ProductiveClient = require("./src/productiveClient");
 const SlackClient = require("./src/slackClient");
 
-const extractWorkedTime = (res) =>
-  res.data.data.map((timeReport) => timeReport.attributes.worked_time);
-
-const fetchConfigurationVariables = async (secretId) => {
+const fetchConfigurationVariables = async () => {
   const client = new SecretsManagerClient();
-  const command = new GetSecretValueCommand({ SecretId: secretId });
+  const command = new GetSecretValueCommand({ SecretId: AWS_SECRET_ID });
   const response = await client.send(command);
   return JSON.parse(response.SecretString);
 };
 
-const getDaysFromEvent = (event) => {
+const parseSlackEvent = (event) => {
   const eventBody = Buffer.from(event.body, "base64");
   const slackParameters = new URLSearchParams(eventBody.toString("ascii"));
-  return parseInt(slackParameters.get("text"), 10);
+  return {
+    days: parseInt(slackParameters.get("text"), 10) || DEFAULT_DAYS,
+  };
 };
 
 module.exports.slack = async (event) => {
@@ -29,9 +32,9 @@ module.exports.slack = async (event) => {
       productive_api_key,
       productive_organization_id,
       slack_user_oauth_token,
-    } = await fetchConfigurationVariables("slack_app_average_hours");
+    } = await fetchConfigurationVariables();
 
-    const days = getDaysFromEvent(event) || 14;
+    const { days } = parseSlackEvent(event);
 
     const productive = new ProductiveClient(
       productive_api_key,
