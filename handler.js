@@ -20,6 +20,7 @@ const parseSlackEvent = (event) => {
   const slackParameters = new URLSearchParams(eventBody.toString("ascii"));
   return {
     days: parseInt(slackParameters.get("text"), 10) || DEFAULT_DAYS,
+    user_id: slackParameters.get("user_id"),
   };
 };
 
@@ -31,7 +32,7 @@ module.exports.slack = async (event) => {
       slack_user_oauth_token,
     } = await fetchConfigurationVariables();
 
-    const { days } = parseSlackEvent(event);
+    const { days, user_id } = parseSlackEvent(event);
 
     const productive = new ProductiveClient(
       productive_api_key,
@@ -39,7 +40,7 @@ module.exports.slack = async (event) => {
     );
 
     const slack = new SlackClient(slack_user_oauth_token);
-    const emailAddress = await slack.fetchEmailAddress();
+    const emailAddress = await slack.fetchEmailAddress(user_id);
 
     const hoursPerWorkedDay = await productive.fetchWorkedDays(
       emailAddress,

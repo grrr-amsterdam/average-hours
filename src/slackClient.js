@@ -13,8 +13,10 @@ module.exports = class SlackClient {
     });
   }
 
-  async fetchEmailAddress() {
-    const slackProfile = await this.client.get("users.profile.get");
+  async fetchEmailAddress(user_id) {
+    const slackProfile = await this.client.get("users.profile.get", {
+      params: { user: user_id },
+    });
     return slackProfile.data.profile.email;
   }
 };
