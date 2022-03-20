@@ -1,6 +1,5 @@
 service: average-hours
 
-frameworkVersion: "2"
 configValidationMode: error
 
 provider:
