@@ -12,7 +12,7 @@
   "author": "Martijn Gastkemper <martijngastkemper@gmail.com>",
   "license": "ISC",
   "engines": {
-    "node": "~16"
+    "node": "~12"
   },
   "dependencies": {
     "axios": "^0.21.1",
