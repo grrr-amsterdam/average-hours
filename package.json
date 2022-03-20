@@ -2,6 +2,7 @@
   "name": "average-hours",
   "version": "0.0.1",
   "description": "API to calculate the average hours worked on a day. The source is the Productive API.",
+  "repository": "https://github.com/grrr-amsterdam/average-hours",
   "main": "handler.js",
   "directories": {
     "test": "test"
