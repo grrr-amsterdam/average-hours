@@ -11,6 +11,9 @@
   },
   "author": "Martijn Gastkemper <martijngastkemper@gmail.com>",
   "license": "ISC",
+  "engines": {
+    "node": "~16"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "date-fns": "^2.22.1"

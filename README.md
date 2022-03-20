@@ -16,7 +16,9 @@ The Lambda function uses a Go written cache layer: [docs](https://aws.amazon.com
 
 ## Local development
 
-This Lambda function uses a cache layer to fetch the configuration for Parameter Store uppon starting the Lambda function. The configuration isn't loaded at runtime.
+Checkout the code and run `npm install`.
+
+This Lambda function uses a cache layer to fetch the configuration for Parameter Store upon starting the Lambda function. The configuration isn't loaded at runtime.
 
 ~~Activate your personal AWS profile. Serverless will create a assume role for the Lambda function.~~
 
