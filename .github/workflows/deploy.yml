@@ -31,7 +31,7 @@ jobs:
 
       - name: Dependencies
         run: |
-          npm install
+          npm install --production
           npm install -g serverless@~2
 
       - name: Deploy
