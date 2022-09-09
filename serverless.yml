@@ -8,6 +8,8 @@ provider:
   lambdaHashingVersion: 20201221
   stackTags:
     client: "average_hours"
+    ManagedBy: Serverless
+    Project: "Average hours"
 
   stage: prod
   region: eu-central-1
