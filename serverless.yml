@@ -4,7 +4,7 @@ configValidationMode: error
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   lambdaHashingVersion: 20201221
   deploymentBucket:
     # Provisioned by grrr-amsterdam/hosting repo
@@ -24,9 +24,6 @@ provider:
           Action:
             - "ssm:GetParameter"
           Resource: "arn:aws:ssm:eu-central-1:308691726112:parameter/slack_app_average_hours"
-
-plugins:
-  - serverless-plugin-resource-tagging
 
 layers:
   cache:
