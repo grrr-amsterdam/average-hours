@@ -1,7 +1,7 @@
 "use strict";
 
 const DEFAULT_DAYS = 14;
-const AWS_SECRET_ID = "slack_app_average_hours";
+const PARAMETER_NAME = "slack_app_average_hours";
 
 const axios = require("axios");
 const ProductiveClient = require("./src/productiveClient");
@@ -10,9 +10,18 @@ const SlackClient = require("./src/slackClient");
 const fetchConfigurationVariables = async () => {
   // Load configuration from Parameter store via cache layer
   const response = await axios.get(
-    `http://localhost:4000/parameters?name=${AWS_SECRET_ID}`
+    `http://127.0.0.1:2773/systemsmanager/parameters/get`,
+    {
+      params: {
+        name: PARAMETER_NAME,
+        withDecryption: true,
+      },
+      headers: {
+        "X-Aws-Parameters-Secrets-Token": process.env.AWS_SESSION_TOKEN,
+      },
+    }
   );
-  return response.data;
+  return JSON.parse(response.data.Parameter.Value);
 };
 
 const parseSlackEvent = (event) => {
@@ -56,16 +65,14 @@ module.exports.slack = async (event) => {
       )} hours during the last ${hoursPerWorkedDay.length} working days.`,
     };
   } catch (error) {
-    let body = "";
+    console.error(error);
+
+    let body = `Something went wrong. The error is logged in CloudWatch with RequestId ${event.requestContext.requestId}.`;
 
     if (axios.isAxiosError(error)) {
-      body = JSON.stringify(error.response.data.error);
-      if (error.response.status === 401) {
-        body = `You're not authorized, probably a missing or wrong Productive api key.`;
+      if (error.response?.status === 401) {
+        body = `You're not authorized, check the credentials in parameter "${PARAMETER_NAME}".`;
       }
-    } else {
-      console.log(error);
-      body = `Something went wrong. The error is logged in CloudWatch with RequestId ${event.requestContext.requestId}.`;
     }
 
     return {

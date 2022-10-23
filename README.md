@@ -6,7 +6,7 @@ Endpoint: `POST /average-hours`
 
 The GRRR Slack workspace contains an app with exposes a slash command: `/average-hours [days]`.
 
-The Lambda function uses a Go written cache layer: [docs](https://aws.amazon.com/blogs/compute/caching-data-and-configuration-settings-with-aws-lambda-extensions/).
+The Lambda function uses a cache layer to make Parameter Store parameters available in the function:[docs](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html).
 
 ## Known issues and improvements
 
