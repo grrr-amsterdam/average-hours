@@ -24,25 +24,17 @@ provider:
           Action:
             - "ssm:GetParameter"
           Resource: "arn:aws:ssm:eu-central-1:308691726112:parameter/slack_app_average_hours"
-
-layers:
-  cache:
-    path: ./lambda-cache-layer
-    name: Cache_Extension_Layer
-    compatibleRuntimes:
-      - nodejs12.x
-      - python3.8
-      - java11
-      - go1.x
+        - Effect: "Allow"
+          Action:
+            - "kms:Decrypt"
+          Resource: "arn:aws:kms:eu-central-1:308691726112:key/4acb0f04-da62-4a0d-b15d-d1b8843cf18e"
 
 functions:
   slack:
     handler: handler.slack
     timeout: 4
-    environment:
-      CACHE_EXTENSION_INIT_STARTUP: true
     layers:
-      - { Ref: CacheLambdaLayer }
+      - "arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
     events:
       - httpApi:
           path: /average-hours
@@ -52,4 +44,4 @@ resources:
   extensions:
     SlackLogGroup:
       Properties:
-        RetentionInDays: "30"
+        RetentionInDays: "14"
