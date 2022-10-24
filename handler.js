@@ -10,7 +10,7 @@ const SlackClient = require("./src/slackClient");
 const fetchConfigurationVariables = async () => {
   // Load configuration from Parameter store via cache layer
   const response = await axios.get(
-    `http://127.0.0.1:2773/systemsmanager/parameters/get`,
+    `http://127.0.0.1:${process.env.PARAMETERS_SECRETS_EXTENSION_HTTP_PORT}/systemsmanager/parameters/get`,
     {
       params: {
         name: PARAMETER_NAME,
