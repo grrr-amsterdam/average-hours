@@ -4,7 +4,7 @@ API to calculate the average hours worked on a day. The source is the Productive
 
 Endpoint: `POST /average-hours`
 
-The GRRR Slack workspace contains an app with exposes a slash command: `/average-hours [days]`.
+The GRRR Slack workspace contains [an app with slash command](https://api.slack.com/apps/A025F8AJ7KN/slash-commands?): `/average-hours [days]`.
 
 The Lambda function uses a cache layer to make Parameter Store parameters available in the function:[docs](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-integration-lambda-extensions.html).
 
