@@ -28,6 +28,8 @@ provider:
           Action:
             - "kms:Decrypt"
           Resource: "arn:aws:kms:eu-central-1:308691726112:key/4acb0f04-da62-4a0d-b15d-d1b8843cf18e"
+      managedPolicies:
+        - arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy
 
 functions:
   slack:
@@ -36,7 +38,8 @@ functions:
     environment:
       PARAMETERS_SECRETS_EXTENSION_HTTP_PORT: 2773
     layers:
-      - "arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+      - arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2
+      - arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension-Arm64:2
     events:
       - httpApi:
           path: /average-hours
