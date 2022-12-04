@@ -35,11 +35,12 @@ functions:
   slack:
     handler: handler.slack
     timeout: 4
+    reservedConcurrency: 2
     environment:
       PARAMETERS_SECRETS_EXTENSION_HTTP_PORT: 2773
     layers:
       - arn:aws:lambda:eu-central-1:187925254637:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2
-      - arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension-Arm64:2
+      - arn:aws:lambda:eu-central-1:580247275435:layer:LambdaInsightsExtension:21
     events:
       - httpApi:
           path: /average-hours
