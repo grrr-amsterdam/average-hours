@@ -1,5 +1,8 @@
 # Average hours
 
+> **Note**  
+> Moved to [grrr-amsterdam/grrr-bot](https://github.com/grrr-amsterdam/grrr-bot).
+
 API to calculate the average hours worked on a day. The source is the Productive API.
 
 Endpoint: `POST /average-hours`
